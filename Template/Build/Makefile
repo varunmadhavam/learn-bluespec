@@ -15,14 +15,14 @@
 # Please modify the following for your installation and setup
 
 # Directory for the specific example you are building
-EG ?= Eg02a_HelloWorld
+# EG ?= Eg02a_HelloWorld
 
 # Directory containing the Bluespec Training distribution directory
 DISTRO ?= ..
 
 # Set this to the command that invokes your Verilog simulator
-# VSIM ?= iverilog
-VSIM ?= cvc
+  VSIM ?= iverilog
+# VSIM ?= cvc
 # VSIM ?= cver
 # VSIM ?= vcsi
 # VSIM ?= vcs
@@ -33,12 +33,12 @@ VSIM ?= cvc
 # ================================================================
 # You should not have to change anything below this line
 
-TOPFILE   ?= $(DISTRO)/Example_Programs/$(EG)/src_BSV/Testbench.bsv
+TOPFILE   ?= $(DISTRO)/src_BSV/Testbench.bsv
 TOPMODULE ?= mkTestbench
 
 BSC_COMP_FLAGS = -elab -keep-fires -aggressive-conditions -no-warn-action-shadowing
 BSC_LINK_FLAGS = -keep-fires
-BSC_PATHS = -p $(DISTRO)/Example_Programs/$(EG)/src_BSV:$(DISTRO)/Example_Programs/Common:%/Prelude:%/Libraries
+BSC_PATHS = -p $(DISTRO)/src_BSV:$(DISTRO)/Common:%/Prelude:%/Libraries
 
 .PHONY: help
 help:
@@ -47,7 +47,6 @@ help:
 	@echo "    BLUESPEC_HOME         = " $(BLUESPEC_HOME)
 	@echo "    BLUESPECDIR           = " $(BLUESPECDIR)
 	@echo ""
-	@echo "    EG                    = " $(EG) " (redefine EG for another example)"
 	@echo ""
 	@echo "Targets for 'make':"
 	@echo "    help                Print this information"
@@ -92,7 +91,7 @@ compile: build_bsim
 link:
 	@echo Linking for Bluesim ...
 	bsc -e $(TOPMODULE) -sim -o $(BSIM_EXE) $(BSIM_DIRS) $(BSC_LINK_FLAGS) $(BSC_PATHS) \
-		$(DISTRO)/Example_Programs/Common/C_imports.c
+		$(DISTRO)/Common/C_imports.c
 	@echo Linking for Bluesim finished
 
 .PHONY: simulate
@@ -125,7 +124,7 @@ verilog: build_v  verilog_dir
 v_link:  build_v  verilog_dir
 	@echo Linking for Verilog sim ...
 	bsc -e $(TOPMODULE) -verilog -o ./$(VSIM_EXE) $(V_DIRS) -vsim $(VSIM)  verilog_dir/$(TOPMODULE).v \
-		$(DISTRO)/Example_Programs/Common/C_imports.c
+		$(DISTRO)/Common/C_imports.c
 	@echo Linking for Verilog sim finished
 
 .PHONY: v_simulate
