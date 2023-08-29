@@ -2,3 +2,6 @@ build_sim/
 *.vcd
 *.so
 *_bsim
+*_vsim
+verilog_dir/
+build_v/
