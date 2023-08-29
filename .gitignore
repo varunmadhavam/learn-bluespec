@@ -1,0 +1,4 @@
+build_sim/
+*.vcd
+*.so
+*_bsim
