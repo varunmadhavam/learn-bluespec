@@ -5,3 +5,4 @@ build_sim/
 *_vsim
 verilog_dir/
 build_v/
+*.o
