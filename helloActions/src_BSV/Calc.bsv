@@ -19,7 +19,7 @@ package Calc;
                 count <= count + 1;
         endrule
 
-        method Action start if( state == IDLE);
+        method Action start if( state == IDLE );
             state <= THINKING;
         endmethod
 

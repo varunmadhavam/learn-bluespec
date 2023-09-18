@@ -5,6 +5,7 @@ package Testbench;
     module mkTestbench (Empty);
         Calc_IFC calc <- mkCalc;
         Reg#(Bit#(4)) count <- mkReg(0);
+
         rule rl_start;
             $display ("Starting to THINK...!!!!!");
             calc.start;
