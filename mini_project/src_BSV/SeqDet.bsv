@@ -39,22 +39,22 @@ package SeqDet;
                 rule match_pattern ( (r_busy == 1) && (r_shf_cnt <= 256) && isValid(r_memword));
                         if( r_memword matches tagged Valid .x )
                                 begin
-                                        if(r_shf_cnt < 256)
+                                        if( r_shf_cnt < 256)
                                                 begin
                                                         r_shf_pat <= (r_shf_pat<<1) | extend(x[255]);
                                                         r_memword <= tagged Valid (x << 1);
-                                                        if(r_shf_pat == r_pattern)
-                                                                r_pat_cnt <= r_pat_cnt + 1;
-                                                        r_shf_cnt <= r_shf_cnt + 1;
                                                 end
                                         else
-                                                begin
-                                                        r_memword <= tagged Invalid;
-                                                end
+                                                r_memword <= tagged Invalid;
+
+                                        if(r_shf_pat == r_pattern)
+                                                r_pat_cnt <= r_pat_cnt + 1;
+
+                                        r_shf_cnt <= r_shf_cnt + 1;
                                 end
                 endrule
 
-                rule  set_result( (r_busy == 1) && (r_rsp == tagged Invalid) && (r_res_word_cnt == r_num_words) && r_shf_cnt == 256);
+                rule  set_result( (r_busy == 1) && (r_rsp == tagged Invalid) && (r_res_word_cnt == r_num_words) && r_shf_cnt == 257);
                         r_rsp <= tagged Valid r_pat_cnt;
                 endrule
 
@@ -63,11 +63,13 @@ package SeqDet;
                         r_num_words      <= req.words;
                         r_pattern        <= req.pattern;
                         r_mem_addr       <= req.addr;
+                        $display ("data = %x",req.addr);
                         r_req_word_cnt   <= 0;
                         r_res_word_cnt   <= 0;
                         x                <= 0;
                         r_rsp            <= tagged Invalid;
                         r_pat_cnt        <= 0;
+                        r_shf_pat        <= 0;
                 endmethod
 
                 method ActionValue #(RspType) response if ( (r_busy == 1) && isValid(r_rsp) );
