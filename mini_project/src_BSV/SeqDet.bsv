@@ -63,7 +63,6 @@ package SeqDet;
                         r_num_words      <= req.words;
                         r_pattern        <= req.pattern;
                         r_mem_addr       <= req.addr;
-                        $display ("data = %x",req.addr);
                         r_req_word_cnt   <= 0;
                         r_res_word_cnt   <= 0;
                         x                <= 0;

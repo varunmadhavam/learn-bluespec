@@ -12,18 +12,18 @@ import Connectable :: *;
 (* synthesize *)
 module mkTestbench (Empty);
 
-        Reg #(Bit#(2)) r_numreq <- mkReg (0);
+        Reg #(Bit#(16)) r_numreq <- mkReg (0);
         Reg #(Bit#(2)) r_numrsp <- mkReg (0);
         SeqDetIfc seqdet <- mkSeqDet;
         Mem_IFC mem <- mkMem;
 
-        rule rl_req (r_numreq < 2);
+        rule rl_req (r_numreq < 8);
                 let req = ReqType {
-                        addr: extend (r_numreq << 2)
+                        addr: r_numreq
                       , words: 4
                       , pattern: 8'h43 };
                 seqdet.request (req);   // implicit condition here!
-                r_numreq <= r_numreq + 1;
+                r_numreq <= r_numreq + 4;
                 $display ("(%05d) rl_req::", cur_cycle, fshow (req));
         endrule
 
